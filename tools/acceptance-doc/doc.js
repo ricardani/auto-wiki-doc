@@ -1,5 +1,6 @@
 const fs = require('fs');
 const fse = require('fs-extra');
+const path = require('path');
 
 const REPORT_FOLDER = 'reports/json';
 const ACCEPTANCE_TEST_FOLDER = 'acceptance/tests';
@@ -88,30 +89,43 @@ const getSuitesFolderInfo = reports => {
     return suitesFolderInfo;
 };
 
-const writeReadMePerModule = (module, tests) => {
-    const title = `# Functional Tests ${module}`
+const writeReadMePerModule = (modulePath, tests) => {
+    const fileName = `Functional Tests ${modulePath}`;
+    const title = `# ${fileName}`
 
     const testsList = tests.join('<br /><br />');
 
-    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/${module}/README.md`, [title, testsList].join('\n'));
+    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/${modulePath}/${modulePath.split('/').pop()}.md`, [title, testsList].join('\n'));
 }
 
 const writeMarkdownReadMe = suitesFolderInfo => {
     const folderKeys = Object.keys(suitesFolderInfo);
-    const sortedFolderKeys = folderKeys.sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
     // TODO: Move sort to its own function
-    const title = '# Functional Tests';
+    const sortedFolderKeys = folderKeys.sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+    const fileName = 'Functional Tests';
+    const title = `# ${fileName}`;
     
     const tableHeader = '| Module | Tests |\n| ----------- | ----------- |';
     const tableContent = sortedFolderKeys.map(key => {
-        // TODO: Format key and send unformatted key to writeReadMePerModule
         const testsData = suitesFolderInfo[key].join('<br /><br />');
-    
+        
         writeReadMePerModule(key, suitesFolderInfo[key]);
+        // TODO: Format key
         return `| ${key} | ${testsData} |\n`;
     });
 
-    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/README.md`, [title, tableHeader, tableContent.join('')].join('\n'));
+    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/acceptance.md`, [title, tableHeader, tableContent.join('')].join('\n'));
+};
+
+const writeSidebar = folder => {
+    const allDocs = fs.readdirSync(folder);
+    allDocs.map(doc => {
+        if (fs.lstatSync(path.join(folder, doc)).isDirectory() ) {
+            console.log(doc)
+            writeSidebar(`${folder}/${doc}`)
+        }
+    })
+    console.log(allDocs)
 };
 
 const getDocs = () => {
@@ -124,6 +138,8 @@ const getDocs = () => {
     // console.log(JSON.stringify(report));
     writeMarkdownDoc(allReportsData);
     writeMarkdownReadMe(suitesFolderInfo);
+
+    writeSidebar(DOCS_FOLDER);
 };
 
 getDocs();
