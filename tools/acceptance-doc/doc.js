@@ -99,7 +99,7 @@ const writeMarkdownReadMe = suitesFolderInfo => {
         return `| ${key} | ${testsData} |\n`;
     });
 
-    fse.outputFile('./reports/markdown/README.md', [title, tableHeader, tableContent.join('')].join('\n'));
+    fse.outputFile('./docs/acceptance/README.md', [title, tableHeader, tableContent.join('')].join('\n'));
 };
 
 const getDocs = () => {

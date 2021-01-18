@@ -25,3 +25,4 @@ jobs:
         githubToken: ${{secrets.REPO_ACCESS}}
         defaultBranch: master
         rootDocsFolder: docs
+        useHeaderForWikiName: false
