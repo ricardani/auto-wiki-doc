@@ -69,7 +69,7 @@ const writeMarkdownDoc = reports => reports.map(report => {
 
     const tableContent = getTableContent(report);
 
-    fse.outputFile(`./reports/markdown/${specPath}/${fileName}.md`, [markdownContent, preConditionContent, tableContent].join('\n'));
+    fse.outputFile(`./docs/acceptance/${specPath}/${fileName}.md`, [markdownContent, preConditionContent, tableContent].join('\n'));
 });
 
 const getSuitesFolderInfo = reports => {

@@ -16,7 +16,7 @@ jobs:
     - name: Install
       run: npm ci
     - name: Run acceptance
-      run: npm acceptance
+      run: npm run acceptance
     - name: Build Acceptance Docs
       run: node ./tools/acceptance-doc/doc.js
     - name: Upload Docs to wiki
