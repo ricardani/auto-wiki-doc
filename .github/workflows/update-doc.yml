@@ -24,4 +24,4 @@ jobs:
       with:
         githubToken: ${{secrets.REPO_ACCESS}}
         defaultBranch: master
-        rootDocsFolder: reports/markdown
+        rootDocsFolder: docs
