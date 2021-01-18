@@ -72,7 +72,7 @@ const writeMarkdownDoc = reports => reports.map(report => {
 
     const tableContent = getTableContent(report);
 
-    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/${specPath}/${report.reportName}.md`, [markdownContent, preConditionContent, tableContent].join('\n'));
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${specPath}/${report.reportName}.md`, [markdownContent, preConditionContent, tableContent].join('\n'));
 });
 
 const getSuitesFolderInfo = reports => {
@@ -95,7 +95,7 @@ const writeReadMePerModule = (modulePath, tests) => {
 
     const testsList = tests.join('<br /><br />');
 
-    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/${modulePath}/${modulePath.split('/').pop()}.md`, [title, testsList].join('\n'));
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${modulePath}/${modulePath.split('/').pop()}.md`, [title, testsList].join('\n'));
 }
 
 const writeMarkdownReadMe = suitesFolderInfo => {
@@ -114,7 +114,7 @@ const writeMarkdownReadMe = suitesFolderInfo => {
         return `| ${key} | ${testsData} |\n`;
     });
 
-    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/acceptance.md`, [title, tableHeader, tableContent.join('')].join('\n'));
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/acceptance.md`, [title, tableHeader, tableContent.join('')].join('\n'));
 };
 
 const writeSidebar = folder => {
