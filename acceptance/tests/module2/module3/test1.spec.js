@@ -4,7 +4,7 @@
     Something
     Other
 */
-describe('Name of the group 2', () => {
+describe('Name of the group 3', () => {
     describe('step1', () => {
         it('should expect 1', () => {
             

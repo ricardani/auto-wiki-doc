@@ -3,6 +3,8 @@ const fse = require('fs-extra');
 
 const REPORT_FOLDER = 'reports/json';
 const ACCEPTANCE_TEST_FOLDER = 'acceptance/tests';
+const DOCS_ACCEPTANCE_FOLDER = 'docs/acceptance';
+const DOCS_FOLDER = 'docs';
 
 const cleanString = str => str.trim().replace(/[^\S\r\n]+/g, ' ').replace(/\n/g, '<br />');
 
@@ -69,7 +71,7 @@ const writeMarkdownDoc = reports => reports.map(report => {
 
     const tableContent = getTableContent(report);
 
-    fse.outputFile(`./docs/acceptance/${specPath}/${fileName}.md`, [markdownContent, preConditionContent, tableContent].join('\n'));
+    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/${specPath}/${report.reportName}.md`, [markdownContent, preConditionContent, tableContent].join('\n'));
 });
 
 const getSuitesFolderInfo = reports => {
@@ -86,20 +88,30 @@ const getSuitesFolderInfo = reports => {
     return suitesFolderInfo;
 };
 
+const writeReadMePerModule = (module, tests) => {
+    const title = `# Functional Tests ${module}`
+
+    const testsList = tests.join('<br /><br />');
+
+    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/${module}/README.md`, [title, testsList].join('\n'));
+}
+
 const writeMarkdownReadMe = suitesFolderInfo => {
     const folderKeys = Object.keys(suitesFolderInfo);
     const sortedFolderKeys = folderKeys.sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
     // TODO: Move sort to its own function
-    const title = '# Functional Tests Documentation';
-
-    const tableHeader = '| When | Then |\n| ----------- | ----------- |';
+    const title = '# Functional Tests';
+    
+    const tableHeader = '| Module | Tests |\n| ----------- | ----------- |';
     const tableContent = sortedFolderKeys.map(key => {
+        // TODO: Format key and send unformatted key to writeReadMePerModule
         const testsData = suitesFolderInfo[key].join('<br /><br />');
-        // TODO: Format key
+    
+        writeReadMePerModule(key, suitesFolderInfo[key]);
         return `| ${key} | ${testsData} |\n`;
     });
 
-    fse.outputFile('./docs/acceptance/README.md', [title, tableHeader, tableContent.join('')].join('\n'));
+    fse.outputFile(`./${DOCS_ACCEPTANCE_FOLDER}/README.md`, [title, tableHeader, tableContent.join('')].join('\n'));
 };
 
 const getDocs = () => {
