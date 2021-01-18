@@ -1,0 +1,27 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install
+      run: npm ci
+    - name: Run acceptance
+      run: npm acceptance
+    - name: Build Acceptance Docs
+      run: node ./tools/acceptance-doc/doc.js
+    - name: Upload Docs to wiki
+      uses: cmbrose/github-docs-to-wiki@v0.23
+      with:
+        githubToken: ${{secrets.REPO_ACCESS}}
+        defaultBranch: master
+        rootDocsFolder: reports/markdown
