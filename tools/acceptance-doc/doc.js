@@ -54,7 +54,7 @@ const getPreConditionContent = filePath => {
 };
 
 const getTableContent = report => {
-    const tableHeader = '| When | Then |\n| ----------- | ----------- |';
+    const tableHeader = '| Steps | Expected Results |\n| ----------- | ----------- |';
     const tableContent = report.suites.map(suite => {
         const whenClause = suite.name;
         const thenClause = suite.tests.map(t => t.name).join('<br /><br />');
@@ -115,7 +115,7 @@ const writeMarkdownReadMe = suitesFolderInfo => {
         return `| ${key} | ${testsData} |\n`;
     });
 
-    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/acceptance.md`, [title, tableHeader, tableContent.join('')].join('\n'));
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${fileName}.md`, [title, tableHeader, tableContent.join('')].join('\n'));
 };
 
 const getSidebarContent = (folder) => {
