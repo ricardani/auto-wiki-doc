@@ -6,6 +6,7 @@ const REPORT_FOLDER = 'reports/json';
 const ACCEPTANCE_TEST_FOLDER = 'acceptance/tests';
 const DOCS_ACCEPTANCE_FOLDER = 'docs/acceptance';
 const DOCS_FOLDER = 'docs';
+const WIKI_URL = 'https://github.com/ricardani/auto-wiki-doc/wiki';
 
 const cleanString = str => str.trim().replace(/[^\S\r\n]+/g, ' ').replace(/\n/g, '<br />');
 
@@ -109,7 +110,7 @@ const writeMarkdownReadMe = suitesFolderInfo => {
     const tableContent = sortedFolderKeys.map(key => {
         const testsData = suitesFolderInfo[key].join('<br /><br />');
         
-        writeReadMePerModule(key, suitesFolderInfo[key]);
+        // writeReadMePerModule(key, suitesFolderInfo[key]);
         // TODO: Format key
         return `| ${key} | ${testsData} |\n`;
     });
@@ -117,15 +118,64 @@ const writeMarkdownReadMe = suitesFolderInfo => {
     fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/acceptance.md`, [title, tableHeader, tableContent.join('')].join('\n'));
 };
 
-const writeSidebar = folder => {
+const getSidebarContent = (folder) => {
     const allDocs = fs.readdirSync(folder);
+    const content = {
+        files: [],
+        children: {}
+    };
     allDocs.map(doc => {
-        if (fs.lstatSync(path.join(folder, doc)).isDirectory() ) {
-            console.log(doc)
-            writeSidebar(`${folder}/${doc}`)
+         if (!fs.lstatSync(path.join(folder, doc)).isDirectory() ) {
+                content.files.push(doc);
+        } else {
+            const childrenContent = getSidebarContent(`${folder}/${doc}`);
+            content.children[doc] = childrenContent;
         }
     })
-    console.log(allDocs)
+    return content;
+};
+
+const addIndentation = (str, indentation) => {
+    let strWithIndentation = '';
+    for (let i = 0; i < indentation; i++) {
+        strWithIndentation += '\t'
+    }
+    strWithIndentation += str;
+
+    return strWithIndentation;
+}
+
+const getSidebarText = (content, key, indentation = 0) => {
+    const sidebarText = [];
+    let newIndentation = indentation;
+    if (key) {
+        sidebarText.push(addIndentation(`* ${key}`, indentation));
+        newIndentation++;
+    }
+
+    content.files.forEach(file => {
+        const fileName = file.split('.');
+        fileName.pop();
+        const fileNameWithoutExtension = fileName.join('.');
+        const fileNameForWiki = fileNameWithoutExtension.replace(/[^\S\r\n]/g, '-');
+        sidebarText.push(addIndentation(`* [${fileNameWithoutExtension}](${WIKI_URL}/${fileNameForWiki})`, newIndentation));
+    })
+
+    const childrenKeys = Object.keys(content.children);
+    if (childrenKeys.length > 0) {
+        childrenKeys.forEach(childKey => {
+            const childText = getSidebarText(content.children[childKey], childKey, newIndentation)
+            sidebarText.push(childText);
+        })
+    }
+
+    return sidebarText.join('\n');
+}
+
+const writeSidebar = sidebarContent => {
+    const sidebarText = getSidebarText(sidebarContent);
+    console.log(sidebarText);
+    fse.outputFileSync(`./${DOCS_FOLDER}/_Sidebar.md`, sidebarText);
 };
 
 const getDocs = () => {
@@ -139,7 +189,9 @@ const getDocs = () => {
     writeMarkdownDoc(allReportsData);
     writeMarkdownReadMe(suitesFolderInfo);
 
-    writeSidebar(DOCS_FOLDER);
+    const sidebarContent = getSidebarContent(DOCS_FOLDER);
+    writeSidebar(sidebarContent);
+    // console.log(JSON.stringify(sidebarContent, null, 2))
 };
 
 getDocs();
