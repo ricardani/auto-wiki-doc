@@ -104,7 +104,7 @@ const writeFunctionalTestsIndex = suitesFolderInfo => {
         return `| ${key} | ${testsData} |\n`;
     });
 
-    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/index.md`, [title, tableHeader, tableContent.join('')].join('\n'));
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/Index.md`, [title, tableHeader, tableContent.join('')].join('\n'));
 };
 
 const getSidebarContent = (folder) => {
