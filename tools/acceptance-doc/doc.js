@@ -4,8 +4,7 @@ const path = require('path');
 
 const ACCEPTANCE_TEST_SRC_FOLDER = 'acceptance/tests';
 const WDIO_REPORT_FOLDER = 'reports/json';
-const ACCEPTANCE_TESTS_FILE_NAME = 'Acceptance Tests';
-const DOCS_ACCEPTANCE_FOLDER = `docs/${ACCEPTANCE_TESTS_FILE_NAME}`;
+const DOCS_ACCEPTANCE_FOLDER = 'docs/Acceptance Tests';
 const DOCS_FOLDER = 'docs';
 const WIKI_URL = 'https://github.com/ricardani/auto-wiki-doc/wiki';
 
@@ -95,7 +94,7 @@ const writeFunctionalTestsIndex = suitesFolderInfo => {
     const folderKeys = Object.keys(suitesFolderInfo);
     // TODO: Move sort to its own function
     const sortedFolderKeys = folderKeys.sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
-    const title = `# ${ACCEPTANCE_TESTS_FILE_NAME}`;
+    const title = `# Index`;
     
     const tableHeader = '| Module | Tests |\n| ----------- | ----------- |';
     const tableContent = sortedFolderKeys.map(key => {
@@ -105,7 +104,7 @@ const writeFunctionalTestsIndex = suitesFolderInfo => {
         return `| ${key} | ${testsData} |\n`;
     });
 
-    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${ACCEPTANCE_TESTS_FILE_NAME}.md`, [title, tableHeader, tableContent.join('')].join('\n'));
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/index.md`, [title, tableHeader, tableContent.join('')].join('\n'));
 };
 
 const getSidebarContent = (folder) => {
