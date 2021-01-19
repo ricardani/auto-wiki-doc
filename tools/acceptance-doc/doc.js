@@ -2,9 +2,10 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 
-const REPORT_FOLDER = 'reports/json';
-const ACCEPTANCE_TEST_FOLDER = 'acceptance/tests';
-const DOCS_ACCEPTANCE_FOLDER = 'docs/acceptance';
+const ACCEPTANCE_TEST_SRC_FOLDER = 'acceptance/tests';
+const WDIO_REPORT_FOLDER = 'reports/json';
+const ACCEPTANCE_TESTS_FILE_NAME = 'Acceptance Tests';
+const DOCS_ACCEPTANCE_FOLDER = `docs/${ACCEPTANCE_TESTS_FILE_NAME}`;
 const DOCS_FOLDER = 'docs';
 const WIKI_URL = 'https://github.com/ricardani/auto-wiki-doc/wiki';
 
@@ -20,7 +21,7 @@ const reduceSuites = suites => suites.map(suite => ({
 }));
 
 const getSpecsData = specs => {
-    const specPath = specs[0].split(`${ACCEPTANCE_TEST_FOLDER}/`).pop().split('/');
+    const specPath = specs[0].split(`${ACCEPTANCE_TEST_SRC_FOLDER}/`).pop().split('/');
     const fileName = specPath.pop();
     return {
         fileName,
@@ -29,7 +30,7 @@ const getSpecsData = specs => {
 };
 
 const reduceReports = allReports => allReports.map(reportPath => {
-    const reportData = fse.readJsonSync(`${REPORT_FOLDER}/${reportPath}`);
+    const reportData = fse.readJsonSync(`${WDIO_REPORT_FOLDER}/${reportPath}`);
 
     const suites = reduceSuites(reportData.suites);
     const specs = getSpecsData(reportData.specs);
@@ -69,7 +70,7 @@ const writeMarkdownDoc = reports => reports.map(report => {
 
     const markdownContent = `# ${report.reportName}`;
 
-    const preConditionContent = getPreConditionContent(`${ACCEPTANCE_TEST_FOLDER}/${specPath}/${fileName}`);
+    const preConditionContent = getPreConditionContent(`${ACCEPTANCE_TEST_SRC_FOLDER}/${specPath}/${fileName}`);
 
     const tableContent = getTableContent(report);
 
@@ -90,32 +91,21 @@ const getSuitesFolderInfo = reports => {
     return suitesFolderInfo;
 };
 
-const writeReadMePerModule = (modulePath, tests) => {
-    const fileName = `Functional Tests ${modulePath}`;
-    const title = `# ${fileName}`
-
-    const testsList = tests.join('<br /><br />');
-
-    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${modulePath}/${modulePath.split('/').pop()}.md`, [title, testsList].join('\n'));
-}
-
-const writeMarkdownReadMe = suitesFolderInfo => {
+const writeFunctionalTestsIndex = suitesFolderInfo => {
     const folderKeys = Object.keys(suitesFolderInfo);
     // TODO: Move sort to its own function
     const sortedFolderKeys = folderKeys.sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
-    const fileName = 'Functional Tests';
-    const title = `# ${fileName}`;
+    const title = `# ${ACCEPTANCE_TESTS_FILE_NAME}`;
     
     const tableHeader = '| Module | Tests |\n| ----------- | ----------- |';
     const tableContent = sortedFolderKeys.map(key => {
         const testsData = suitesFolderInfo[key].join('<br /><br />');
         
-        // writeReadMePerModule(key, suitesFolderInfo[key]);
         // TODO: Format key
         return `| ${key} | ${testsData} |\n`;
     });
 
-    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${fileName}.md`, [title, tableHeader, tableContent.join('')].join('\n'));
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${ACCEPTANCE_TESTS_FILE_NAME}.md`, [title, tableHeader, tableContent.join('')].join('\n'));
 };
 
 const getSidebarContent = (folder) => {
@@ -174,24 +164,20 @@ const getSidebarText = (content, key, indentation = 0) => {
 
 const writeSidebar = sidebarContent => {
     const sidebarText = getSidebarText(sidebarContent);
-    console.log(sidebarText);
     fse.outputFileSync(`./${DOCS_FOLDER}/_Sidebar.md`, sidebarText);
 };
 
 const getDocs = () => {
-    const allReportsPaths = fs.readdirSync(REPORT_FOLDER);
+    const allReportsPaths = fs.readdirSync(WDIO_REPORT_FOLDER);
     const allReportsData = reduceReports(allReportsPaths);
 
     const suitesFolderInfo = getSuitesFolderInfo(allReportsData);
-    // console.log(suitesFolderInfo);
 
-    // console.log(JSON.stringify(report));
     writeMarkdownDoc(allReportsData);
-    writeMarkdownReadMe(suitesFolderInfo);
+    writeFunctionalTestsIndex(suitesFolderInfo);
 
     const sidebarContent = getSidebarContent(DOCS_FOLDER);
     writeSidebar(sidebarContent);
-    // console.log(JSON.stringify(sidebarContent, null, 2))
 };
 
 getDocs();

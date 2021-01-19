@@ -6,7 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 reports
-docs/acceptance
+docs/Acceptance Tests
 docs/_Sidebar.md
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
