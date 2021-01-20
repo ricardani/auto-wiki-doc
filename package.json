@@ -13,7 +13,8 @@
   },
   "dependencies": {},
   "scripts": {
-    "acceptance": "wdio ./tools/wdio/wdio.conf.js"
+    "acceptance": "wdio ./tools/wdio/wdio.conf.js",
+    "acceptance:documentation": "node ./tools/acceptance-documentation"
   },
   "repository": {
     "type": "git",

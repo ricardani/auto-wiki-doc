@@ -18,7 +18,7 @@ jobs:
       run: npm run acceptance
 
     - name: Build Acceptance Docs
-      run: node ./tools/acceptance-doc/doc.js
+      run: npm run acceptance:documentation
 
     - name: Upload Docs to wiki
       uses: cmbrose/github-docs-to-wiki@v0.23
