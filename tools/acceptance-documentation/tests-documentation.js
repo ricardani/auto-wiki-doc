@@ -33,7 +33,9 @@ const generateTestsDocumentation = allReports => allReports.map(report => {
 
     const tableContent = getTableContent(report);
 
-    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${specPath}/${report.reportName}.md`, [markdownContent, preConditionContent, tableContent].join('\n'));
+    const fileContent = [markdownContent, preConditionContent, tableContent].join('\n');
+
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${specPath}/${report.reportName}.md`, fileContent);
 });
 
 module.exports = generateTestsDocumentation;

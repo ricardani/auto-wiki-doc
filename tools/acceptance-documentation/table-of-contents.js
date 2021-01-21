@@ -19,12 +19,12 @@ const getSuitesFolderInfo = reports => {
 const writeTableOfContents = suitesFolderInfo => {
     const folderKeys = Object.keys(suitesFolderInfo);
     const sortedFolderKeys = folderKeys.sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
-    const title = `# Table Of Contents`;
-    
+    const title = '# Table Of Contents';
+
     const tableHeader = '| Module | Tests |\n| ----------- | ----------- |';
     const tableContent = sortedFolderKeys.map(key => {
         const testsData = suitesFolderInfo[key].join('<br /><br />');
-        
+
         return `| ${key} | ${testsData} |\n`;
     });
 

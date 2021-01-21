@@ -23,7 +23,7 @@ jobs:
     - name: Upload Docs to wiki
       uses: cmbrose/github-docs-to-wiki@v0.23
       with:
-        githubToken: ${{secrets.REPO_ACCESS}}
+        githubToken: ${{secrets.GITHUB_TOKEN}}
         defaultBranch: master
         rootDocsFolder: docs
         useHeaderForWikiName: true
