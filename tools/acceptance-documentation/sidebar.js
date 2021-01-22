@@ -29,7 +29,7 @@ const getSidebarText = (content, key, indentation = 0) => {
     const sidebarText = [];
     let newIndentation = indentation;
     if (key) {
-        sidebarText.push(addIndentation(`* ${key}`, indentation));
+        sidebarText.push(addIndentation(`* ${toPascalCase(key)}`, indentation));
         newIndentation++;
     }
 
