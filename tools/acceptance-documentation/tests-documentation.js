@@ -37,7 +37,7 @@ const generateTestsDocumentation = allReports => allReports.map(report => {
     const fileContent = [markdownContent, preConditionContent, tableContent].join('\n');
 
     const dashedFileName = replaceSpaceWithDash(report.reportName);
-    const fileNameWithPath = `${replaceSlashWithUnderscore(dashedSpecPath)}-${dashedFileName}`;
+    const fileNameWithPath = `${replaceSlashWithUnderscore(dashedSpecPath)}__${dashedFileName}`;
 
     fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${dashedSpecPath}/${fileNameWithPath}.md`, fileContent);
 });
