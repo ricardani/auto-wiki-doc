@@ -26,8 +26,9 @@ const getTableContent = report => {
 
 const generateTestsDocumentation = allReports => allReports.map(report => {
     const { specPath, fileName } = report.specs;
+    const dashedSpecPath = replaceSpaceWithDash(specPath);
 
-    const markdownContent = `# ${specPath}: ${report.reportName}`;
+    const markdownContent = `# ${dashedSpecPath} ${report.reportName}`;
 
     const preConditionContent = getPreConditionContent(`${ACCEPTANCE_TEST_SRC_FOLDER}/${specPath}/${fileName}`);
 
@@ -35,9 +36,8 @@ const generateTestsDocumentation = allReports => allReports.map(report => {
 
     const fileContent = [markdownContent, preConditionContent, tableContent].join('\n');
 
-    const dashedSpecPath = replaceSpaceWithDash(specPath);
     const dashedFileName = replaceSpaceWithDash(report.reportName);
-    const fileNameWithPath = `${replaceSlashWithUnderscore(dashedSpecPath)}__${dashedFileName}`;
+    const fileNameWithPath = `${replaceSlashWithUnderscore(dashedSpecPath)}-${dashedFileName}`;
 
     fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${dashedSpecPath}/${fileNameWithPath}.md`, fileContent);
 });
