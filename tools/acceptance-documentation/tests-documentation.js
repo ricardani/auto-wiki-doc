@@ -1,7 +1,7 @@
 const fse = require('fs-extra');
 
 const { ACCEPTANCE_TEST_SRC_FOLDER, DOCS_ACCEPTANCE_FOLDER } = require('./config');
-const { cleanString } = require('./utils');
+const { cleanString, replaceSpaceWithDash, replaceSlashWithUnderscore } = require('./utils');
 
 const getPreConditionContent = filePath => {
     const fileData = fse.readFileSync(filePath, { encoding: 'utf8', flag: 'r' });
@@ -35,7 +35,11 @@ const generateTestsDocumentation = allReports => allReports.map(report => {
 
     const fileContent = [markdownContent, preConditionContent, tableContent].join('\n');
 
-    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${specPath}/${report.reportName}.md`, fileContent);
+    const dashedSpecPath = replaceSpaceWithDash(specPath);
+    const dashedFileName = replaceSpaceWithDash(report.reportName);
+    const fileNameWithPath = `${replaceSlashWithUnderscore(dashedSpecPath)}__${dashedFileName}`;
+
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${dashedSpecPath}/${fileNameWithPath}.md`, fileContent);
 });
 
 module.exports = generateTestsDocumentation;

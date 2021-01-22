@@ -28,7 +28,7 @@ const writeTableOfContents = suitesFolderInfo => {
         return `| ${key} | ${testsData} |\n`;
     });
 
-    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/Table Of Contents.md`, [title, tableHeader, tableContent.join('')].join('\n'));
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/table-of-contents.md`, [title, tableHeader, tableContent.join('')].join('\n'));
 };
 
 const generateTableOfContents = allReports => {

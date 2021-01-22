@@ -1,6 +1,6 @@
 const ACCEPTANCE_TEST_SRC_FOLDER = 'acceptance/tests';
 const WDIO_REPORT_FOLDER = 'reports/json';
-const DOCS_ACCEPTANCE_FOLDER = 'docs/Acceptance Tests';
+const DOCS_ACCEPTANCE_FOLDER = 'docs/acceptance-tests';
 const DOCS_FOLDER = 'docs';
 const WIKI_URL = 'https://github.com/ricardani/auto-wiki-doc/wiki';
 

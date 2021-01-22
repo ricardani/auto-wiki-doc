@@ -6,7 +6,7 @@ const {
     DOCS_FOLDER,
     WIKI_URL
 } = require('./config');
-const { addIndentation } = require('./utils');
+const { addIndentation, replaceSpaceWithDash, replaceDashWithSpace } = require('./utils');
 
 const getSidebarContent = folder => {
     const allDocs = fs.readdirSync(folder);
@@ -37,8 +37,10 @@ const getSidebarText = (content, key, indentation = 0) => {
         const fileName = file.split('.');
         fileName.pop();
         const fileNameWithoutExtension = fileName.join('.');
-        const fileNameForWiki = fileNameWithoutExtension.replace(/[^\S\r\n]/g, '-');
-        sidebarText.push(addIndentation(`* [${fileNameWithoutExtension}](${WIKI_URL}/${fileNameForWiki})`, newIndentation));
+        const fileNameForWiki = replaceSpaceWithDash(fileNameWithoutExtension);
+        const fileNameTag = replaceDashWithSpace(fileNameWithoutExtension.split('__').pop());
+
+        sidebarText.push(addIndentation(`* [${fileNameTag}](${WIKI_URL}/${fileNameForWiki})`, newIndentation));
     });
 
     const childrenKeys = Object.keys(content.children);
