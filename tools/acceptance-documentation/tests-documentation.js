@@ -1,7 +1,7 @@
 const fse = require('fs-extra');
 
 const { ACCEPTANCE_TEST_SRC_FOLDER, DOCS_ACCEPTANCE_FOLDER } = require('./config');
-const { cleanString, replaceSpaceWithDash, replaceSlashWithUnderscore } = require('./utils');
+const { cleanString, replaceSpaceWithDash, replaceSlashWithDash } = require('./utils');
 
 const getPreConditionContent = filePath => {
     const fileData = fse.readFileSync(filePath, { encoding: 'utf8', flag: 'r' });
@@ -28,7 +28,7 @@ const generateTestsDocumentation = allReports => allReports.map(report => {
     const { specPath, fileName } = report.specs;
     const dashedSpecPath = replaceSpaceWithDash(specPath);
 
-    const markdownContent = `# ${dashedSpecPath} ${report.reportName}`;
+    const markdownContent = `# ${replaceSlashWithDash(dashedSpecPath)} ${report.reportName}`;
 
     const preConditionContent = getPreConditionContent(`${ACCEPTANCE_TEST_SRC_FOLDER}/${specPath}/${fileName}`);
 
@@ -37,9 +37,9 @@ const generateTestsDocumentation = allReports => allReports.map(report => {
     const fileContent = [markdownContent, preConditionContent, tableContent].join('\n');
 
     const dashedFileName = replaceSpaceWithDash(report.reportName);
-    const fileNameWithPath = `${replaceSlashWithUnderscore(dashedSpecPath)}__${dashedFileName}`;
+    const wikiFileName = `${replaceSlashWithDash(dashedSpecPath)}-${dashedFileName}`;
 
-    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${dashedSpecPath}/${fileNameWithPath}.md`, fileContent);
+    fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/${dashedSpecPath}/${wikiFileName}.md`, fileContent);
 });
 
 module.exports = generateTestsDocumentation;
