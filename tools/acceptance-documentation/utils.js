@@ -16,7 +16,6 @@ const replaceSlashWithUnderscore = str => str.replace(/\//g, '__');
 
 const replaceDashWithSpace = str => str.replace(/-/g, ' ');
 
-
 module.exports = {
     cleanString,
     addIndentation,

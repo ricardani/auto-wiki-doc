@@ -27,7 +27,7 @@ const getTableContent = report => {
 const generateTestsDocumentation = allReports => allReports.map(report => {
     const { specPath, fileName } = report.specs;
 
-    const markdownContent = `# ${report.reportName}`;
+    const markdownContent = `# ${specPath}: ${report.reportName}`;
 
     const preConditionContent = getPreConditionContent(`${ACCEPTANCE_TEST_SRC_FOLDER}/${specPath}/${fileName}`);
 
