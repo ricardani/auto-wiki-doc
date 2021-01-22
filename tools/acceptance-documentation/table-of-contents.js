@@ -2,6 +2,8 @@ const fse = require('fs-extra');
 
 const { DOCS_ACCEPTANCE_FOLDER } = require('./config');
 
+const { replaceSlashWithDash, toPascalCase } = require('./utils');
+
 const getSuitesFolderInfo = reports => {
     const suitesFolderInfo = {};
     reports.map(report => {
@@ -25,7 +27,9 @@ const writeTableOfContents = suitesFolderInfo => {
     const tableContent = sortedFolderKeys.map(key => {
         const testsData = suitesFolderInfo[key].join('<br /><br />');
 
-        return `| ${key} | ${testsData} |\n`;
+        const dashedKey = replaceSlashWithDash(key);
+
+        return `| ${toPascalCase(dashedKey)} | ${testsData} |\n`;
     });
 
     fse.outputFileSync(`./${DOCS_ACCEPTANCE_FOLDER}/table-of-contents.md`, [title, tableHeader, tableContent.join('')].join('\n'));

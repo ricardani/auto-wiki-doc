@@ -13,9 +13,13 @@ const addIndentation = (str, indentation) => {
 const replaceSpaceWithDash = str => str.replace(/[^\S\r\n]/g, '-');
 
 const replaceSlashWithUnderscore = str => str.replace(/\//g, '__');
+
 const replaceSlashWithDash = str => str.replace(/\//g, '-');
 
 const replaceDashWithSpace = str => str.replace(/-/g, ' ');
+
+const toPascalCase = str => str.replace(/(^\w|-\w)/g, group => group.replace(/-/, ' ').toUpperCase());
+
 
 module.exports = {
     cleanString,
@@ -23,5 +27,6 @@ module.exports = {
     replaceSpaceWithDash,
     replaceSlashWithUnderscore,
     replaceSlashWithDash,
-    replaceDashWithSpace
+    replaceDashWithSpace,
+    toPascalCase
 };
