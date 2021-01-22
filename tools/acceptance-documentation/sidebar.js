@@ -38,7 +38,7 @@ const getSidebarText = (content, key, indentation = 0) => {
         fileName.pop();
         const fileNameWithoutExtension = fileName.join('.');
         const fileNameForWiki = replaceSpaceWithDash(fileNameWithoutExtension);
-        const fileNameTag = replaceDashWithSpace(fileNameWithoutExtension.split('__').pop());
+        const fileNameTag = fileNameForWiki.split(`${key}-`).pop();
 
         sidebarText.push(addIndentation(`* [${fileNameTag}](${WIKI_URL}/${fileNameForWiki})`, newIndentation));
     });
