@@ -5,10 +5,14 @@ const { cleanString, replaceSpaceWithDash, replaceSlashWithDash, toPascalCase } 
 
 const getPreConditionContent = filePath => {
     const fileData = fse.readFileSync(filePath, { encoding: 'utf8', flag: 'r' });
-    const preConditionInitIndex = fileData.indexOf('Pre-Conditions');
+    const preConditionInitIndex = fileData.toLowerCase().indexOf('pre-conditions');
     const preConditionEndIndex = fileData.indexOf('*/', preConditionInitIndex);
 
     const preConditionData = fileData.substring(preConditionInitIndex, preConditionEndIndex);
+
+    if (preConditionInitIndex === -1) {
+        return '';
+    }
 
     return `\n${cleanString(preConditionData)}\n`;
 };

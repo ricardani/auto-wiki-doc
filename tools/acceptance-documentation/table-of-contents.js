@@ -6,7 +6,7 @@ const { replaceSlashWithDash, toPascalCase } = require('./utils');
 
 const getSuitesFolderInfo = reports => {
     const suitesFolderInfo = {};
-    reports.map(report => {
+    reports.forEach(report => {
         const { specPath } = report.specs;
 
         if (suitesFolderInfo[specPath]) {
