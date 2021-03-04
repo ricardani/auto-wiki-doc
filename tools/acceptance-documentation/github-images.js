@@ -28,7 +28,7 @@ const addGitHubPathToImages = () => {
 
         const newData = data.replace(IMAGE_LOCAL_PATH, IMAGE_GITHUB_MASTER_PATH);
 
-        fse.outputFileSync(path, newData);
+        fse.outputFileSync(docPath, newData);
     })
 };
 
