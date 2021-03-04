@@ -20,7 +20,6 @@ const replaceDashWithSpace = str => str.replace(/-/g, ' ');
 
 const toPascalCase = str => str.replace(/(^\w|-\w)/g, group => group.replace(/-/, ' ').toUpperCase());
 
-
 module.exports = {
     cleanString,
     addIndentation,
