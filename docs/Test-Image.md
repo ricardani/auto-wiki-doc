@@ -2,4 +2,4 @@
 
 #### Image example
 
-![](./img/418.jpeg)
+![](./../img/418.jpeg)
