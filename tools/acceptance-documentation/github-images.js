@@ -21,12 +21,10 @@ const getAllDocumentationPaths = (folder = DOCS_FOLDER) => {
 }
 
 const addGitHubPathToImages = () => {
-
     const allDocsPaths = getAllDocumentationPaths();
 
     allDocsPaths.forEach(path => {
         const data = fse.readFileSync(path, { encoding: 'utf8', flag: 'r' });
-        console.log(typeof data)
 
         const newData = data.replace(IMAGE_LOCAL_PATH, IMAGE_GITHUB_MASTER_PATH);
 
