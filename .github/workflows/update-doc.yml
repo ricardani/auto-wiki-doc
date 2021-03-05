@@ -20,10 +20,17 @@ jobs:
     - name: Build Acceptance Docs
       run: npm run acceptance:documentation
 
+    # - name: Upload Docs to wiki
+    #   uses: cmbrose/github-docs-to-wiki@v0.23
+    #   with:
+    #     githubToken: ${{secrets.REPO_ACCESS}}
+    #     defaultBranch: master
+    #     rootDocsFolder: docs
+    #     useHeaderForWikiName: false
+
     - name: Upload Docs to wiki
-      uses: cmbrose/github-docs-to-wiki@v0.23
+      uses: SwiftDocOrg/github-wiki-publish-action@v1
       with:
-        githubToken: ${{secrets.REPO_ACCESS}}
-        defaultBranch: master
-        rootDocsFolder: docs
-        useHeaderForWikiName: false
+        path: "docs"
+      env:
+        GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS }}
