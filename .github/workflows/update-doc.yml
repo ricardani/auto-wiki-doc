@@ -28,9 +28,18 @@ jobs:
     #     rootDocsFolder: docs
     #     useHeaderForWikiName: false
 
+    # - name: Upload Docs to wiki
+    #   uses: SwiftDocOrg/github-wiki-publish-action@v1
+    #   with:
+    #     path: "docs"
+    #   env:
+    #     GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS }}
+    
     - name: Upload Docs to wiki
-      uses: SwiftDocOrg/github-wiki-publish-action@v1
+      uses: joeizzard/action-wiki-sync@master
       with:
-        path: "docs"
-      env:
-        GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS }}
+          username: ricardani
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          wiki_folder: docs
+          commit_username: 'Example Name'
+          commit_email: 'github.action@users.noreply.github.com'
