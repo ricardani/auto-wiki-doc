@@ -15,6 +15,9 @@ const getSidebarContent = folder => {
         children: {}
     };
     allDocs.forEach(doc => {
+        if (doc === 'img') {
+            return;
+        }
         if (!fs.lstatSync(path.join(folder, doc)).isDirectory()) {
             content.files.push(doc);
         } else {
