@@ -21,7 +21,7 @@ jobs:
       run: npm run acceptance:documentation
 
     - name: Upload Docs to wiki
-      uses: joeizzard/action-wiki-sync@master
+      run: sh ./tools/action.sh
       with:
           username: ricardani
           access_token: ${{ secrets.GITHUB_TOKEN }}
