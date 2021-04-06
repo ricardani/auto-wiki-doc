@@ -1,5 +1,5 @@
 #!/bin/sh
-CURRENT_FOLDER=pwd
+CURRENT_FOLDER=${pwd}
 WIKIP="https://${INPUT_ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git"
 
 echo "Cloning WIKI Repo..."
