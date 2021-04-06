@@ -22,9 +22,8 @@ jobs:
 
     - name: Upload Docs to wiki
       run: sh ./tools/action.sh
-      with:
-          username: ricardani
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-          wiki_folder: docs
-          commit_username: 'Example Name'
-          commit_email: 'github.action@users.noreply.github.com'
+      env:
+          INPUT_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_WIKI_FOLDER: docs
+          INPUT_COMMIT_USERNAME: 'Example Name'
+          INPUT_COMMIT_EMAIL: 'github.action@users.noreply.github.com'
