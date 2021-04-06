@@ -10,6 +10,7 @@ rm -r ~/wiki/*
 
 echo "Copy Files..."
 echo "-> Wiki Folder: ${INPUT_WIKI_FOLDER}"
+ll
 
 if [ ! -d "/github/workspace/${INPUT_WIKI_FOLDER}" ]; then
     echo "Specified Wiki Folder Missing"
