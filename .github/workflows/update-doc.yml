@@ -36,3 +36,4 @@ jobs:
         ACTION_NAME: yourusername
         OWNER: ricardani
         REPO_NAME: auto-wiki-doc
+        MD_FOLDER: docs
