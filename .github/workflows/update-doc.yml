@@ -20,20 +20,11 @@ jobs:
     - name: Build Acceptance Docs
       run: npm run acceptance:documentation
 
-    # - name: Upload Docs to wiki
-    #   uses: joeizzard/action-wiki-sync@master
-    #   with:
-    #       username: ricardani
-    #       access_token: ${{ secrets.GITHUB_TOKEN }}
-    #       wiki_folder: docs
-    #       commit_username: 'Example Name'
-    #       commit_email: 'github.action@users.noreply.github.com'
-    - name: Upload Release Notes to Wiki
-      uses: docker://decathlon/wiki-page-creator-action:latest
-      env:
-        GH_PAT: ${{ secrets.REPO_ACCESS }}
-        ACTION_MAIL: youremail@mail.com
-        ACTION_NAME: yourusername
-        OWNER: ricardani
-        REPO_NAME: auto-wiki-doc
-        MD_FOLDER: docs
+    - name: Upload Docs to wiki
+      uses: joeizzard/action-wiki-sync@master
+      with:
+          username: ricardani
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          wiki_folder: docs
+          commit_username: 'Example Name'
+          commit_email: 'github.action@users.noreply.github.com'
