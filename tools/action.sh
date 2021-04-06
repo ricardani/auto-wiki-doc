@@ -20,11 +20,14 @@ cp -a ${WIKI_FOLDER}/. ~/wiki-tmp
 echo "Git Config..."
 echo "-> User: ${COMMIT_USERNAME}"
 echo "-> Email: ${COMMIT_EMAIL}"
+git config --global user.email "${COMMIT_EMAIL}"
+git config --global user.name "${COMMIT_USERNAME}"
+
 echo "Commit..."
 echo "-> Message: ${COMMIT_MESSAGE}"
 cd ~/wiki-tmp
 git add -A
-git -c user.name="${COMMIT_USERNAME}" -c user.email="${COMMIT_EMAIL}" commit -m "${COMMIT_MESSAGE}"
+git commit -m "${COMMIT_MESSAGE}"
 git push $WIKIP
 
 echo "Moving to the main folder..."
