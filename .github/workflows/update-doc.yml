@@ -17,11 +17,11 @@ jobs:
     - name: Run acceptance
       run: npm run acceptance
 
-    - name: Build Acceptance Docs
-      run: npm run acceptance:documentation
+    - name: Build Documentation
+      run: npm run documentation:build
 
-    - name: Upload Docs to wiki
-      run: sh ./tools/action.sh
+    - name: Publish Documentation to wiki
+      run: npm run documentation:publish
       env:
           ACCESS_TOKEN: ${{ secrets.REPO_ACCESS }}
           WIKI_FOLDER: docs

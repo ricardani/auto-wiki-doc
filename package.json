@@ -14,7 +14,8 @@
   "dependencies": {},
   "scripts": {
     "acceptance": "wdio ./tools/wdio/wdio.conf.js",
-    "acceptance:documentation": "node ./tools/acceptance-documentation"
+    "documentation:build": "node ./tools/documentation",
+    "documentation:publish": "sh ./tools/documentation/publish.sh"
   },
   "repository": {
     "type": "git",
