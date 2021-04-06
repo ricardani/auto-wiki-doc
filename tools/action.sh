@@ -4,14 +4,12 @@ WIKIP="https://${INPUT_ACCESS_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git"
 
 echo "Cloning WIKI Repo..."
 git clone $WIKIP ~/wiki
-cd ~/wiki
 
 echo "Cleaning..."
-rm -r *
+rm -r ~/wiki/*
 
 echo "Copy Files..."
 echo "-> Wiki Folder: ${INPUT_WIKI_FOLDER}"
-cd /github/workspace
 
 if [ ! -d "/github/workspace/${INPUT_WIKI_FOLDER}" ]; then
     echo "Specified Wiki Folder Missing"
